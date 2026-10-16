@@ -2,8 +2,6 @@
 
 Karta prijava problematičnih rubnjaka, prijelaza i prekida u biciklističkoj i pješačkoj infrastrukturi. Ova varijanta nema koridore u javnom frontendu.
 
-Ova verzija je pripremljena za obični Node.js 24 hosting. Nema Cloudflare runtime ovisnosti i nema produkcijski build framework.
-
 ## Pokretanje
 
 ```bash
