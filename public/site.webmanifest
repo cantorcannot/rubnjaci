@@ -1,0 +1,13 @@
+{
+  "name": "Gdje je zapelo?",
+  "short_name": "Gdje je zapelo?",
+  "description": "Prijavi rubnjak ili prijelaz koji otežava kretanje i pogledaj odobrene prijave na karti Zagreba.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf8f1",
+  "theme_color": "#0e3a2e",
+  "icons": [
+    { "src": "/icon-stop-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-stop-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "apiUrl": "/api/rubnjaci",
+  "reportUrl": "/prijavi",
+  "updateUrl": "/prijavi",
+  "mapStyle": "https://tiles.openfreemap.org/styles/liberty",
+  "initialCenter": [
+    15.9819,
+    45.815
+  ],
+  "initialZoom": 11.5,
+  "clusterRadius": 24,
+  "clusterMaxZoom": 12,
+  "locationZoom": 16,
+  "deepLinkZoom": 16,
+  "staleAfterDays": 365,
+  "updatesEnabled": true,
+  "nearbyRadiusMeters": 40,
+  "nearbyLimit": 3,
+  "orthophotoEnabled": true,
+  "orthophotoAttribution": "Sadrži podatke Geoportala Državne geodetske uprave",
+  "orthophotoTileUrl": "/api/ortho/{z}/{x}/{y}.png"
+}

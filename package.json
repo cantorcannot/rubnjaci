@@ -1,0 +1,16 @@
+{
+  "name": "gdje-je-zapelo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "node server.js",
+    "dev": "node --env-file=.env --watch server.js",
+    "check": "node --check server.js && node --check server/env.js && node --check server/kobo.js && node --check server/geojson.js && node --check server/routes.js && node --check public/app.js",
+    "test:corridors": "python analysis/tests/test_corridor_builder.py"
+  }
+}
