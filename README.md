@@ -1,6 +1,6 @@
 # Gdje je zapelo?
 
-Karta prijava problematičnih rubnjaka, prijelaza i prekida u biciklističkoj i pješačkoj infrastrukturi. Ova varijanta nema koridore u javnom frontendu.
+Karta prijava problematičnih rubnjaka, prijelaza i prekida u biciklističkoj i pješačkoj infrastrukturi. Varijanta bez koridora u javnom frontendu.
 
 ## Pokretanje
 
