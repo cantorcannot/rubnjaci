@@ -137,7 +137,7 @@ async function loadCorridors(map) {
     filter: ["==", ["get", "feature_role"], "corridor_area"],
     paint: {
       "fill-color": COLOR,
-      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.13, 14, 0.18, 17, 0.22]
+      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.08, 14, 0.12, 17, 0.15]
     }
   }, beforeId);
 
@@ -148,8 +148,8 @@ async function loadCorridors(map) {
     filter: ["==", ["get", "feature_role"], "corridor_area"],
     paint: {
       "line-color": COLOR,
-      "line-opacity": 0.72,
-      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1.2, 14, 2.2, 17, 3]
+      "line-opacity": 0.36,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 14, 1.2, 17, 1.6]
     }
   }, beforeId);
 
@@ -160,7 +160,7 @@ async function loadCorridors(map) {
     filter: ["==", ["get", "feature_role"], "hotspot_area"],
     paint: {
       "fill-color": COLOR,
-      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.22, 14, 0.30, 17, 0.36]
+      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.14, 14, 0.20, 17, 0.24]
     }
   }, beforeId);
 
@@ -171,8 +171,8 @@ async function loadCorridors(map) {
     filter: ["==", ["get", "feature_role"], "hotspot_area"],
     paint: {
       "line-color": COLOR,
-      "line-opacity": 0.9,
-      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1.4, 14, 2.5, 17, 3.4]
+      "line-opacity": 0.48,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.9, 14, 1.4, 17, 1.9]
     }
   }, beforeId);
 
