@@ -907,8 +907,10 @@ import * as maplibregl from "https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
       attributionControl: true
     });
 
+    window.__rubnjaciMap = map;
     placeNavigationControl();
     map.on("load", addLayers);
+    map.on("load", () => window.dispatchEvent(new CustomEvent("rubnjaci:map-ready", { detail: { map } })));
 
     document.querySelectorAll("#filters input").forEach((input) => input.addEventListener("change", refreshFilter));
     $("mobile-panel-toggle").addEventListener("click", () => {
