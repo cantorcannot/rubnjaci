@@ -358,19 +358,25 @@ def buffered_extent(
     search_m: float,
     road_half_width_m: float,
     side_half_width_m: float,
+    simplify_m: float = 3.0,
 ) -> Any:
+    """
+    Public display geometry intentionally follows the canonical measurement axis,
+    not every road/footway/cycleway/service branch inside the membership catchment.
+
+    Membership remains broad and uses the full functional street profile. Keeping
+    display geometry axis-based makes the public corridor legible, much smaller,
+    and substantially cheaper to serialize/render.
+    """
     if axis_segment is None or axis_segment.is_empty:
         return None
-    window = axis_segment.buffer(search_m)
-    pieces = []
-    road_piece = component.road_linework.intersection(window)
-    if not road_piece.is_empty:
-        pieces.append(road_piece.buffer(road_half_width_m, cap_style=1, join_style=1))
-    if component.side_linework is not None and not component.side_linework.is_empty:
-        side_piece = component.side_linework.intersection(window)
-        if not side_piece.is_empty:
-            pieces.append(side_piece.buffer(side_half_width_m, cap_style=1, join_style=1))
-    return unary_union(pieces) if pieces else axis_segment.buffer(road_half_width_m)
+
+    display_axis = axis_segment
+    if simplify_m > 0:
+        display_axis = display_axis.simplify(simplify_m, preserve_topology=False)
+
+    # Keep round ends/joins and one continuous shaded band around the canonical axis.
+    return display_axis.buffer(road_half_width_m, cap_style=1, join_style=1)
 
 
 def type_summary(rows: gpd.GeoDataFrame) -> tuple[Counter, str]:
@@ -403,6 +409,7 @@ def build_street_corridors(
     corridor_side_half_width_m: float,
     hotspot_road_half_width_m: float,
     hotspot_side_half_width_m: float,
+    display_axis_simplify_m: float,
 ) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame, dict[str, Any]]:
     projected = sites.to_crs(edges.crs)
     matched = nearest_edges(projected, edges, max_snap_m)
@@ -472,6 +479,7 @@ def build_street_corridors(
             search_m=display_search_m,
             road_half_width_m=corridor_road_half_width_m,
             side_half_width_m=corridor_side_half_width_m,
+            simplify_m=display_axis_simplify_m,
         )
         if corridor_area is None or corridor_area.is_empty:
             continue
@@ -508,6 +516,7 @@ def build_street_corridors(
                 search_m=display_search_m,
                 road_half_width_m=hotspot_road_half_width_m,
                 side_half_width_m=hotspot_side_half_width_m,
+                simplify_m=display_axis_simplify_m,
             )
             if hotspot_area is None or hotspot_area.is_empty:
                 continue
@@ -618,10 +627,11 @@ def main() -> None:
     parser.add_argument("--hotspot-padding-m", type=float, default=12.0)
 
     parser.add_argument("--display-search-m", type=float, default=70.0)
-    parser.add_argument("--corridor-road-half-width-m", type=float, default=14.0)
+    parser.add_argument("--corridor-road-half-width-m", type=float, default=22.0)
     parser.add_argument("--corridor-side-half-width-m", type=float, default=7.0)
-    parser.add_argument("--hotspot-road-half-width-m", type=float, default=18.0)
+    parser.add_argument("--hotspot-road-half-width-m", type=float, default=28.0)
     parser.add_argument("--hotspot-side-half-width-m", type=float, default=9.0)
+    parser.add_argument("--display-axis-simplify-m", type=float, default=3.0)
     args = parser.parse_args()
 
     network_path = Path(args.network)
@@ -657,6 +667,7 @@ def main() -> None:
         corridor_side_half_width_m=args.corridor_side_half_width_m,
         hotspot_road_half_width_m=args.hotspot_road_half_width_m,
         hotspot_side_half_width_m=args.hotspot_side_half_width_m,
+        display_axis_simplify_m=args.display_axis_simplify_m,
     )
 
     now = datetime.now(timezone.utc).isoformat()
@@ -674,6 +685,10 @@ def main() -> None:
             "min_corridor_sites": args.min_corridor_sites,
             "min_corridor_span_m": args.min_corridor_span_m,
             "hotspot_gap_m": args.hotspot_gap_m,
+            "display_axis_simplify_m": args.display_axis_simplify_m,
+            "corridor_half_width_m": args.corridor_road_half_width_m,
+            "hotspot_half_width_m": args.hotspot_road_half_width_m,
+            "display_geometry": "canonical_axis_buffer",
         },
         **summary,
     }
